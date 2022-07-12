@@ -15,12 +15,12 @@
     - Объект SessionFactory создается один раз в классе Main с аннотацией @Bean. По аналогии с loadDabaseSource в проекте "Работа мечты".
     - Объект ItemStore принимает параметр SessionFactory через конструктор.
 - Главная страница приложения
-![img.png](img.png)
+![img.png](src/main/resources/static/images/img.png)
 - Ввод новой заметки
-![img_1.png](img_1.png)
+![img_1.png](src/main/resources/static/images/img_1.png)
 - Редактирование заметки (2 варианта - на главной странице, и в форме профиля заметки)
-![img_2.png](img_2.png)
+![img_2.png](src/main/resources/static/images/img_2.png)
 - Форма профиля заметки (позволяет выполнить операции с заметкой - перевести в выполненные, отредактировать, удалить)
-![img_3.png](img_3.png)
+![img_3.png](src/main/resources/static/images/img_3.png)
 - На главной странице в меню задания сортируются - все, выполненные, выполняются.
-![img_4.png](img_4.png)
+![img_4.png](src/main/resources/static/images/img_4.png)
