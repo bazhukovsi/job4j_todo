@@ -17,7 +17,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
     <title>Список задач</title>
 </head>
 <body>
@@ -33,6 +33,14 @@
                 <a class="nav-item nav-link" th:href="@{/executed}">Выполненные</a>
                 <a class="nav-item nav-link" th:href="@{/newItems}">Новые</a>
                 <a class="nav-item nav-link" th:href="@{/formAddItem}">Добавить</a>
+                <a class="nav-item nav-link" th:if="${account.name == 'Гость'}" th:href="@{/formLoginAccount}">
+                    <span th:text="${account.name}"></span>
+                    <span> | Войти</span>
+                </a>
+                <a class="nav-item nav-link" th:if="${account.name != 'Гость'}" th:href="@{/logout}">
+                    <span th:text="${account.name}"></span>
+                    <span> | Выйти</span>
+                </a>
             </div>
         </div>
     </nav>

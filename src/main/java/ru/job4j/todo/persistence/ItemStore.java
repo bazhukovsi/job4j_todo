@@ -6,7 +6,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.Item;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -55,25 +54,21 @@ public class ItemStore {
 
     public List<Item> findAll() {
         Session session = sf.openSession();
-        List<Item> items = new ArrayList<>();
+        List<Item> items;
         session.beginTransaction();
         Query query = session.createQuery("from Item order by id");
-        for (Object item : query.list()) {
-            items.add((Item) item);
-        }
+        items = query.list();
         session.getTransaction().commit();
         return items;
     }
 
     public List<Item> findByName(String key) {
         Session session = sf.openSession();
-        List<Item> items = new ArrayList<>();
+        List items;
         session.beginTransaction();
         Query queryByIdWithParamName = session.createQuery("from Item t where t.name = :nameItem");
         queryByIdWithParamName.setParameter("nameItem", key);
-        for (Object item : queryByIdWithParamName.list()) {
-            items.add((Item) item);
-        }
+        items = queryByIdWithParamName.list();
         session.getTransaction().commit();
         return items;
     }

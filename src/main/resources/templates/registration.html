@@ -17,13 +17,12 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
-    <title>Задания</title>
+    <title>Список заметок</title>
 </head>
 <body>
 <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light  bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Работа мечты</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -31,36 +30,30 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-item nav-link active" href="#">Главная <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" th:href="@{/index}">Список заданий</a>
-                <a class="nav-item nav-link" th:if="${account.name == 'Гость'}" th:href="@{/formLoginAccount}">
-                    <span th:text="${account.name}"></span>
-                    <span> | Войти</span>
-                </a>
-                <a class="nav-item nav-link" th:if="${account.name != 'Гость'}" th:href="@{/logout}">
-                    <span th:text="${account.name}"></span>
-                    <span> | Выйти</span>
-                </a>
             </div>
         </div>
     </nav>
     <div class="row">
         <div class="card" style="width: 100%">
-            <div class="card-header">
-                Новое задание.
+            <div class="card-header" style="background-color: burlywood">
+                Регистрация нового пользователя.
             </div>
-            <div class="card-body">
-                <form th:action="@{/createItem}" method="POST">
+            <div class="card-body" style="background-color: lightgrey">
+                <form th:action="@{/registration}" method="POST">
                     <div class="form-group">
                         <input type="hidden" name="id" value="0"/>
-                        <label for="name">Тема заметки:</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Введите задание">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" name="name" id="name"
+                               placeholder="Введите имя пользователя">
                         <br>
-                        <label for="description">Описание заметки:</label>
-                        <input type="text" class="form-control" name="description" id="description"
-                               placeholder="Опишите задание">
+                        <label for="login">Имя</label>
+                        <input type="text" class="form-control" name="login" id="login"
+                               placeholder="Введите имя пользователя">
                         <br>
-                        <label for="created">Дата ввода заметки:</label>
-                        <input type="date" class="form-control" id="created" name="created" placeholder="Введите дату">
+                        <label for="password">Пароль</label>
+                        <input type="text" class="form-control" name="password" id="password"
+                               placeholder="Введите пароль">
+                        <br>
                     </div>
                     <br>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
