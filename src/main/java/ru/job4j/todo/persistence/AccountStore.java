@@ -43,8 +43,8 @@ public class AccountStore {
         session.beginTransaction();
         Query queryById = session.createQuery("from Account acc where acc.id = :accountId");
         queryById.setParameter("accountId", id);
-        Account account = (Account) queryById.uniqueResult();
+        Optional account = queryById.uniqueResultOptional();
         session.getTransaction().commit();
-        return Optional.ofNullable(account);
+        return account;
     }
 }

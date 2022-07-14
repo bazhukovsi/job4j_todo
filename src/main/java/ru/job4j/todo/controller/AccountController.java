@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.todo.model.Account;
 import ru.job4j.todo.service.AccountService;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
@@ -31,7 +32,6 @@ public class AccountController {
     public String registration(Model model, @ModelAttribute Account account) {
         Optional<Account> regAccount = accountService.add(account);
         if (regAccount.isEmpty()) {
-            model.addAttribute("message", "Пользователь с такой почтой уже существует");
             return "redirect:/fail";
         }
         return "redirect:/success";
