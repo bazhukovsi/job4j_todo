@@ -31,14 +31,6 @@
                 <a class="nav-item nav-link" th:href="@{/executed}">Выполненные</a>
                 <a class="nav-item nav-link" th:href="@{/newItems}">Новые</a>
                 <a class="nav-item nav-link" th:href="@{/addItem}">Добавить</a>
-<!--                <a class="nav-item nav-link" th:if="${account.name == 'Гость'}" th:href="@{/formLoginAccount}">-->
-<!--                    <span th:text="${account.name}"></span>-->
-<!--                    <span> | Войти</span>-->
-<!--                </a>-->
-<!--                <a class="nav-item nav-link" th:if="${account.name != 'Гость'}" th:href="@{/logout}">-->
-<!--                    <span th:text="${account.name}"></span>-->
-<!--                    <span> | Выйти</span>-->
-<!--                </a>-->
             </div>
         </div>
     </nav>
@@ -50,10 +42,12 @@
             <div class="card-body">
                 <form th:action="@{/updateItem}" method="POST" th:object="${item}">
                     <input type="hidden" name="id" th:field="*{id}"/>
+
                     <div class="form-group">
                         <label for="name">Тема заметки:</label>
                         <input type="text" class="form-control" name="name" id="name" th:field="*{name}">
                     </div>
+
                     <div class="form-group">
                         <label for="description">Описание заметки</label>
                         <textarea type="text" class="form-control" name="description" id="description" th:field="*{description}"></textarea>

@@ -49,7 +49,7 @@
                 Новое задание.
             </div>
             <div class="card-body">
-                <form th:action="@{/createItem}" method="POST">
+                <form th:if="${account.name != 'Гость'}" th:action="@{/createItem}" method="POST">
                     <div class="form-group">
                         <input type="hidden" name="id" value="0"/>
                         <label for="name">Тема заметки:</label>

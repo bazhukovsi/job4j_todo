@@ -22,4 +22,8 @@ public class AccountService {
         return userStore.findUserByLoginAndPwd(login, password);
     }
 
+    public Optional<Account> findAccountById(int id) {
+        return userStore.findAccountById(id);
+    }
+
 }

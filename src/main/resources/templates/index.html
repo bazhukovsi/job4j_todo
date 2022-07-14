@@ -19,7 +19,7 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
     <title>Список заметок</title>
 </head>
 <body>
@@ -60,6 +60,10 @@
                             <p class="card-subtitle text-muted">
                                 Создано
                                 <span th:text="${#dates.format(item.created, 'dd.MM.yyyy')}"></span>
+                            </p>
+                            <p class="card-subtitle text-muted">
+                                Автор
+                                <span th:text="${item.account.name}"></span>
                             </p>
                             <div class="col-1 col-md-4 text-left ">
                                 <a class="btn btn-warning btn-sm" th:href="@{|/updateItem/${item.id}|}">

@@ -16,20 +16,19 @@ public class Item {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date created;
     private boolean done;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     public Item() {
     }
 
-    public Item(String name, String description, Date created, boolean done) {
+    public Item(String name, String description, Date created, boolean done, Account account) {
         this.name = name;
         this.description = description;
         this.created = created;
         this.done = done;
-    }
-
-    public Item(String name, String description) {
-        this.name = name;
-        this.description = description;
+        this.account = account;
     }
 
     public int getId() {
@@ -70,6 +69,14 @@ public class Item {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @Override

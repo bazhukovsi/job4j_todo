@@ -37,4 +37,14 @@ public class AccountStore {
         session.getTransaction().commit();
         return Optional.ofNullable(account);
     }
+
+    public Optional<Account> findAccountById(int id) {
+        Session session = sf.openSession();
+        session.beginTransaction();
+        Query queryById = session.createQuery("from Account acc where acc.id = :accountId");
+        queryById.setParameter("accountId", id);
+        Account account = (Account) queryById.uniqueResult();
+        session.getTransaction().commit();
+        return Optional.ofNullable(account);
+    }
 }
