@@ -1,17 +1,16 @@
 package ru.job4j.todo.persistence;
 
 import net.jcip.annotations.ThreadSafe;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.Item;
+
 import java.util.Date;
 import java.util.List;
 
 @Repository
 @ThreadSafe
-public class ItemStore {
+public class ItemStore implements Store {
     private final SessionFactory sf;
 
     public ItemStore(SessionFactory sf) {
@@ -19,68 +18,40 @@ public class ItemStore {
     }
 
     public Item add(Item item) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        session.save(item);
-        session.getTransaction().commit();
-        session.close();
+        tx(session -> session.save(item), sf);
         return item;
     }
 
     public boolean replace(int id, Item item) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        int count = session.createQuery("update Item t set t.name = :newName, t.description = :newDesc, "
+        return tx(session -> session.createQuery("update Item t set t.name = :newName, t.description = :newDesc, "
                         + "t.created = :newCreated, t.done = :newDone  where t.id = :idItem")
                 .setParameter("newName", item.getName())
                 .setParameter("newDesc", item.getDescription())
                 .setParameter("newCreated", new Date())
                 .setParameter("newDone", item.isDone())
                 .setParameter("idItem", id)
-                .executeUpdate();
-        session.getTransaction().commit();
-        return count > 0;
+                .executeUpdate(), sf) > 0;
     }
 
     public boolean delete(int id) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        int count = session.createQuery("delete from Item where id = :idItem")
+        return tx(session -> session.createQuery("delete from Item where id = :idItem")
                 .setParameter("idItem", id)
-                .executeUpdate();
-        session.getTransaction().commit();
-        return count > 0;
+                .executeUpdate(), sf) > 0;
     }
 
-    public List<Item> findAll() {
-        Session session = sf.openSession();
-        List<Item> items;
-        session.beginTransaction();
-        Query query = session.createQuery("from Item order by id");
-        items = query.list();
-        session.getTransaction().commit();
-        return items;
+    public List findAll() {
+        return tx(session -> session.createQuery(
+                "from Item").list(), sf);
     }
 
     public List<Item> findByName(String key) {
-        Session session = sf.openSession();
-        List items;
-        session.beginTransaction();
-        Query queryByIdWithParamName = session.createQuery("from Item t where t.name = :nameItem");
-        queryByIdWithParamName.setParameter("nameItem", key);
-        items = queryByIdWithParamName.list();
-        session.getTransaction().commit();
-        return items;
+        return tx(session -> session.createQuery("from Item t where t.name = :nameItem")
+                .setParameter("nameItem", key).list(), sf);
     }
 
     public Item findById(int id) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        Query queryById = session.createQuery("from Item t where t.id = :idItem");
-        queryById.setParameter("idItem", id);
-        Item item = (Item) queryById.uniqueResult();
-        session.getTransaction().commit();
-        return item;
+        return (Item) tx(session -> session.createQuery("from Item t where t.id = :idItem")
+                .setParameter("idItem", id).uniqueResult(), sf);
     }
 
     public List executedItems() {
@@ -92,32 +63,19 @@ public class ItemStore {
     }
 
     private List findItemsForDone(boolean condition) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("from Item t where t.done  = :condition");
-        List result = query.setParameter("condition", condition).list();
-        session.getTransaction().commit();
-        session.close();
-        return result;
+        return tx(session -> session.createQuery("from Item t where t.done  = :condition")
+                .setParameter("condition", condition).list(), sf);
     }
 
     public void executeById(int id) {
         changeIsDone(id, true);
     }
 
-    public void restoreById(int id) {
-        changeIsDone(id, false);
-    }
-
     private void changeIsDone(int id, boolean condition) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("update Item t set t.done = :isDone where t.id = :id");
-        query.setParameter("isDone", condition);
-        query.setParameter("id", id);
-        query.executeUpdate();
-        session.getTransaction().commit();
-        session.close();
+        tx(session -> session.createQuery("update Item t set t.done = :isDone where t.id = :id")
+                .setParameter("isDone", condition)
+                .setParameter("id", id)
+                .executeUpdate(), sf);
     }
 
 }
