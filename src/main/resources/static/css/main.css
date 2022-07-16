@@ -1,17 +1,17 @@
-th {
-    position: -webkit-sticky;
-    position: sticky;
-    background-color: burlywood;
-    top: -3px;
-    z-index: 2;
-}
+/*th {*/
+/*    position: -webkit-sticky;*/
+/*    position: sticky;*/
+/*    background-color: burlywood;*/
+/*    top: -3px;*/
+/*    z-index: 2;*/
+/*}*/
 
 body {
     background-color: bisque;
 }
 
-nav {
-    background: bisque;
-    font-style: italic;
-    font-weight: bold;
-}
+/*nav {*/
+/*    background: bisque;*/
+/*    font-style: italic;*/
+/*    font-weight: bold;*/
+/*}*/

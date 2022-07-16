@@ -1,9 +1,12 @@
 package ru.job4j.todo.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "items")
@@ -19,6 +22,8 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<Category> categories = new HashSet<>();
 
     public Item() {
     }
@@ -79,6 +84,18 @@ public class Item {
         this.account = account;
     }
 
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
+    public void addCategory(Category category) {
+        categories.add(category);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -87,13 +104,15 @@ public class Item {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Item todo = (Item) o;
-        return id == todo.id;
+        Item item = (Item) o;
+        return id == item.id && done == item.done && Objects.equals(name, item.name)
+                && Objects.equals(description, item.description) && Objects.equals(created, item.created)
+                && Objects.equals(account, item.account) && Objects.equals(categories, item.categories);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, name, description, created, done, account, categories);
     }
 
     @Override

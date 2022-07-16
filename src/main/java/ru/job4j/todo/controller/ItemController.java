@@ -3,27 +3,28 @@ package ru.job4j.todo.controller;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.model.Account;
 import ru.job4j.todo.model.Item;
 import ru.job4j.todo.service.AccountService;
+import ru.job4j.todo.service.CategoryService;
 import ru.job4j.todo.service.ItemServiceImpl;
 import ru.job4j.todo.utility.Utility;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @ThreadSafe
 public class ItemController {
     ItemServiceImpl itemService;
     AccountService accountService;
+    CategoryService categoryService;
 
-    public ItemController(ItemServiceImpl itemService, AccountService accountService) {
+    public ItemController(ItemServiceImpl itemService, AccountService accountService, CategoryService categoryService) {
         this.itemService = itemService;
         this.accountService = accountService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/index")
@@ -56,14 +57,15 @@ public class ItemController {
                 new Date(), true, new Account()));
         Account account = Utility.logAccount(session);
         model.addAttribute("account", account);
+        model.addAttribute("categories", categoryService.findAll());
         return "createItem";
     }
 
     @PostMapping("/createItem")
-    public String createItem(@ModelAttribute Item item, HttpSession session) {
+    public String createItem(@ModelAttribute Item item, @RequestParam(name = "categoriesId") List<String> categoriesId, HttpSession session) {
         Account account = Utility.logAccount(session);
         item.setAccount(account);
-        itemService.add(item);
+        itemService.add(item, categoriesId);
         return "redirect:/index";
     }
 

@@ -23,7 +23,8 @@
 </head>
 <body>
 <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light  bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Список заметок</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -44,27 +45,37 @@
         </div>
     </nav>
     <div class="row">
-        <div class="card" style="width: 100%">
-            <div class="card-header">
-                Новое задание.
-            </div>
-            <div class="card-body">
-                <form th:if="${account.name != 'Гость'}" th:action="@{/createItem}" method="POST">
-                    <div class="form-group">
-                        <input type="hidden" name="id" value="0"/>
-                        <label for="name">Тема заметки:</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Введите задание">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Новая заметка.
+                </div>
+                <div class="card-body">
+                    <form th:if="${account.name != 'Гость'}" th:action="@{/createItem}" method="POST">
+                        <div class="form-group">
+                            <input type="hidden" name="id" value="0"/>
+                            <label for="name">Тема заметки:</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Введите задание">
+                            <br>
+                            <label for="description">Описание заметки:</label>
+                            <input type="text" class="form-control" name="description" id="description"
+                                   placeholder="Опишите задание">
+                            <br>
+                            <label for="created">Дата ввода заметки:</label>
+                            <input type="date" class="form-control" id="created" name="created"
+                                   placeholder="Введите дату">
+                        </div>
                         <br>
-                        <label for="description">Описание заметки:</label>
-                        <input type="text" class="form-control" name="description" id="description"
-                               placeholder="Опишите задание">
-                        <br>
-                        <label for="created">Дата ввода заметки:</label>
-                        <input type="date" class="form-control" id="created" name="created" placeholder="Введите дату">
-                    </div>
-                    <br>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                </form>
+                        <div class="form-group">
+                            <label for="categoriesId">Категории</label>
+                            <select class="form-control" id="categoriesId" name="categoriesId" multiple="multiple">
+                                <option th:each="category : ${categories}" th:value="${category.id}"
+                                        th:text="${category.name}" th:selected="${category.id==1}"></option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

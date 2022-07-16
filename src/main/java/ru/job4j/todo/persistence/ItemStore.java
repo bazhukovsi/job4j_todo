@@ -3,6 +3,7 @@ package ru.job4j.todo.persistence;
 import net.jcip.annotations.ThreadSafe;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
+import ru.job4j.todo.model.Category;
 import ru.job4j.todo.model.Item;
 
 import java.util.Date;
@@ -17,8 +18,14 @@ public class ItemStore implements Store {
         this.sf = sf;
     }
 
-    public Item add(Item item) {
-        tx(session -> session.save(item), sf);
+    public Item add(Item item, List<String> categoriesId) {
+        tx(session -> {
+            for (String id : categoriesId) {
+                Category category = session.find(Category.class, Integer.parseInt(id));
+                item.addCategory(category);
+            }
+            return session.save(item);
+        }, sf);
         return item;
     }
 

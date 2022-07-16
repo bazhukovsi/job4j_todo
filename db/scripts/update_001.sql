@@ -16,6 +16,19 @@ CREATE TABLE IF NOT EXISTS items
     account_id  INT REFERENCES accounts (id)
 );
 
+CREATE TABLE IF NOT EXISTS categories
+(
+    id SERIAL PRIMARY KEY,
+    name TEXT
+);
+
+INSERT INTO categories(name) VALUES ('Дом');
+INSERT INTO categories(name) VALUES ('Работа');
+INSERT INTO categories(name) VALUES ('Магазин');
+INSERT INTO categories(name) VALUES ('Медицина');
+INSERT INTO categories(name) VALUES ('Машина');
+INSERT INTO categories(name) VALUES ('Дача');
+
 
 
 

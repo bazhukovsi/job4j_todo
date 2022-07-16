@@ -1,6 +1,7 @@
 package ru.job4j.todo.service;
 
 import org.springframework.stereotype.Service;
+import ru.job4j.todo.model.Category;
 import ru.job4j.todo.model.Item;
 import ru.job4j.todo.persistence.ItemStore;
 
@@ -12,11 +13,6 @@ public class ItemServiceImpl implements ItemService {
 
     public ItemServiceImpl(ItemStore itemStore) {
         this.itemStore = itemStore;
-    }
-
-    @Override
-    public Item add(Item item) {
-        return itemStore.add(item);
     }
 
     @Override
@@ -57,6 +53,11 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void executeById(int id) {
         itemStore.executeById(id);
+    }
+
+    @Override
+    public Item add(Item item, List<String> categoriesId) {
+        return itemStore.add(item, categoriesId);
     }
 
 }
