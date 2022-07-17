@@ -105,14 +105,12 @@ public class Item {
             return false;
         }
         Item item = (Item) o;
-        return id == item.id && done == item.done && Objects.equals(name, item.name)
-                && Objects.equals(description, item.description) && Objects.equals(created, item.created)
-                && Objects.equals(account, item.account) && Objects.equals(categories, item.categories);
+        return id == item.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, created, done, account, categories);
+        return Objects.hash(id);
     }
 
     @Override
