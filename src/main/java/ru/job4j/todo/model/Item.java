@@ -17,6 +17,7 @@ public class Item {
     private String name;
     private String description;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     private boolean done;
     @ManyToOne
